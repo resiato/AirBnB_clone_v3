@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """test for file storage"""
 import unittest
+from datetime import datetime
+import inspect
 import pep8
 import json
 import os
@@ -110,6 +112,24 @@ class TestFileStorage(unittest.TestCase):
         states = storage.all(State)
         self.assertEqual(states, {})
 
+    def test_get_cls_id(self):
+        """... checks get method with class and id inputs"""
+        duplicate = storage.get('User', self.user.id)
+        expected = self.user.id
+        actual = duplicate.id
+        self.assertEqual(expected, actual)
+
+    def test_count_cls(self):
+        """... checks count method with class input arg"""
+        count_user = storage.count('User')
+        expected = 1
+        self.assertEqual(expected, count_user)
+
+    def test_count_all(self):
+        """... checks the count method with no class input"""
+        count_all = storage.count()
+        expected = 2
+        self.assertEqual(expected, count_all)
 
 if __name__ == "__main__":
     unittest.main()
