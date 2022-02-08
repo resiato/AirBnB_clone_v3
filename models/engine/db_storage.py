@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """This is the db storage class for AirBnB"""
-import datetime
+
 from os import getenv
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
