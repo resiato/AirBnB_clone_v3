@@ -6,6 +6,7 @@ import inspect
 import pep8
 import json
 import os
+from models import engine
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -112,13 +113,6 @@ class TestFileStorage(unittest.TestCase):
         states = storage.all(State)
         self.assertEqual(states, {})
 
-    def test_get_cls_id(self):
-        """... checks get method with class and id inputs"""
-        duplicate = storage.get('User', self.user.id)
-        expected = self.user.id
-        actual = duplicate.id
-        self.assertEqual(expected, actual)
-
     def test_count_cls(self):
         """... checks count method with class input arg"""
         count_user = storage.count('User')
@@ -130,6 +124,51 @@ class TestFileStorage(unittest.TestCase):
         count_all = storage.count()
         expected = 2
         self.assertEqual(expected, count_all)
+
+    def test_get_cls_id(self):
+        """... checks get method with class and id inputs"""
+        duplicate = storage.get('User', self.user.id)
+        expected = self.user.id
+        actual = duplicate.id
+        self.assertEqual(expected, actual)
+
+    def test_all(self):
+        """... checks if all() function returns newly created instance"""
+        u_id = self.user.id
+        all_obj = storage.all()
+        actual = False
+        for k in all_obj.keys():
+            if u_id in k:
+                actual = True
+        self.assertTrue(actual)
+
+    def test_obj_saved_to_file(self):
+        """... checks proper FileStorage instantiation"""
+        remove(F)
+        self.user.save()
+        u_id = self.user.id
+        actual = False
+        with open(F, mode='r', encoding='utf-8') as f_obj:
+            storage_dict = json.load(f_obj)
+        for k in storage_dict.keys():
+            if u_id in k:
+                actual = True
+        self.assertTrue(actual)
+
+    def test_reload(self):
+        """... checks proper usage of reload function"""
+        remove(F)
+        self.bm_obj.save()
+        u_id = self.bm_obj.id
+        actual = False
+        new_storage = FileStorage()
+        new_storage.reload()
+        all_obj = new_storage.all()
+        for k in all_obj.keys():
+            if u_id in k:
+                actual = True
+        self.assertTrue(actual)
+
 
 if __name__ == "__main__":
     unittest.main()

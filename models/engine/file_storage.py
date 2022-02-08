@@ -1,22 +1,29 @@
 #!/usr/bin/python3
 """This is the file storage class for AirBnB"""
 import json
-import datetime
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+from models import base_model, Amenity, City, Place, Review, State, User
+from datetime import datetime
+
+strptime = datetime.strptime
+to_json = base_model.BaseModel.to_json
 
 
 class FileStorage:
-    """This class serializes instances to a JSON file and
-    deserializes JSON file to instances
-    Attributes:
-        __file_path: path to the JSON file
-        __objects: objects will be stored
+     """
+        handles long term storage of all class instances
+    """
+    CNC = {
+        'BaseModel': base_model.BaseModel,
+        'Amenity': Amenity.Amenity,
+        'City': City.City,
+        'Place': Place.Place,
+        'Review': Review.Review,
+        'State': State.State,
+        'User': User.User
+    }
+    """CNC - this variable is a dictionary with:
+    keys: Class Names
+    values: Class type (used for instantiation)
     """
     __file_path = "file.json"
     __objects = {}

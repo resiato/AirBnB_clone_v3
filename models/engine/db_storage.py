@@ -1,21 +1,28 @@
 #!/usr/bin/python3
 """This is the db storage class for AirBnB"""
 
-from os import getenv
+from os import getenv 
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy import create_engine
-from models.base_model import BaseModel, Base
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+from models.base_model import Base
+from models import User, State, City, base_model, Amenity, Place, Review
 
 
 class DBStorage():
     """
-    Database Engine for AirBnB project
+    handles longe term storage of all class instances
+    """
+     CNC = {
+        'Amenity': Amenity.Amenity,
+        'City': City.City,
+        'Place': Place.Place,
+        'Review': Review.Review,
+        'State': State.State,
+        'User': User.User
+    }
+
+    """
+        handles storage for database
     """
     __engine = None
     __session = None
